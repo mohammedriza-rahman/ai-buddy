@@ -58,8 +58,8 @@ PROFESSION_DOMAINS = {
     "Other": []
 }
 
-# # Streamlit interface setup
-# st.set_page_config(page_title="AI-Buddy Assistant", page_icon="AI-Buddy.png", layout="centered")
+# Streamlit interface setup
+st.set_page_config(page_title="AI-Buddy Assistant", page_icon="AI-Buddy.png", layout="centered",menu_items=None)
 
 # Load and resize the image
 img = Image.open("AI Buddy Green Logo.png")
@@ -68,14 +68,14 @@ resized_img = img.resize((400, 150))
 # Display the resized image
 st.image(resized_img, caption="AI-Buddy Assistant")
 
-# Streamlit interface setup
-st.set_page_config(
-    page_title="AI-Buddy Assistant",
-    page_icon="AI-Buddy.png",
-    layout="centered",
-    initial_sidebar_state="auto",
-    menu_items=None
-)
+# # Streamlit interface setup
+# st.set_page_config(
+#     page_title="AI-Buddy Assistant",
+#     page_icon="AI-Buddy.png",
+#     layout="centered",
+#     initial_sidebar_state="auto",
+#     menu_items=None
+# )
 
 # Enhanced CSS to hide ALL Streamlit elements including bottom icons
 st.markdown("""

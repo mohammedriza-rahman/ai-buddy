@@ -66,7 +66,7 @@ img = Image.open("AI Buddy Green Logo.png")
 resized_img = img.resize((400, 150))
 
 # Display the resized image
-st.image(resized_img, caption="AI-Buddy Assistant")
+st.image(resized_img, caption="AI-Buddy Assistant", use_column_width=False)
 
 # # Streamlit interface setup
 # st.set_page_config(

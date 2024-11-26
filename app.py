@@ -61,12 +61,12 @@ PROFESSION_DOMAINS = {
 # Streamlit interface setup
 st.set_page_config(page_title="AI-Buddy Assistant", page_icon="AI-Buddy.png", layout="centered")
 
-# Load and resize the image
-img = Image.open("AI Buddy Green Logo.png")
-resized_img = img.resize((400, 150))
+# # Load and resize the image
+# img = Image.open("AI Buddy Green Logo.png")
+# resized_img = img.resize((400, 150))
 
-# Display the resized image
-st.image(resized_img, caption="AI-Buddy Assistant")
+# # Display the resized image
+# st.image(resized_img, caption="AI-Buddy Assistant")
 
 # # Streamlit interface setup
 # st.set_page_config(
@@ -77,36 +77,54 @@ st.image(resized_img, caption="AI-Buddy Assistant")
 #     menu_items=None
 # )
 
-# Enhanced CSS to hide ALL Streamlit elements including bottom icons
+# Enhanced CSS with image fix
 st.markdown("""
     <style>
-        /* Hide Streamlit Decoration */
+        /* Previous hide Streamlit decoration styles */
         #MainMenu {visibility: hidden;}
         header {visibility: hidden;}
         footer {visibility: hidden;}
         
-        /* Hide bottom app elements */
-        .stApp iframe[height="0"] {display: none;}
-        .stApp div[data-testid="stDecoration"] {display: none;}
-        .stApp div[data-testid="stToolbar"] {display: none;}
-        .stApp .streamlit-footer {display: none;}
-        .stApp div[data-testid="stStatusWidget"] {display: none;}
+        /* Prevent image expansion and set fixed size */
+        .stImage > img {
+            pointer-events: none !important;
+            user-select: none !important;
+            -webkit-user-drag: none !important;
+            max-width: 400px !important;
+            max-height: 150px !important;
+            object-fit: contain !important;
+            margin: auto !important;
+            display: block !important;
+        }
         
-        /* Hide all iframe elements that might contain icons */
-        iframe {
+        /* Remove image hover effects and click behavior */
+        .stImage {
+            pointer-events: none !important;
+            user-select: none !important;
+        }
+        
+        /* Hide image expansion overlay */
+        .stMarkdown div[data-testid="stImage"] {
+            pointer-events: none !important;
+        }
+        
+        /* Additional Streamlit icon hiding */
+        .streamlit-expanderHeader {
+            display: none !important;
+        }
+        div[data-testid="stToolbar"],
+        div[data-testid="stDecoration"],
+        div[data-testid="stStatusWidget"],
+        .streamlit-footer,
+        section[data-testid="stSidebar"] .decoration {
             display: none !important;
         }
         
-        /* Hide specific bottom elements */
-        div[data-testid="stBottomBlockButtons"] {display: none;}
-        .stHorizontalBlock {display: none;}
-        
-        /* Additional selectors for bottom icons */
-        section[data-testid="stBottomBlock"] {display: none;}
-        .streamlit-bottom {display: none;}
-        
-        /* Force remove any fixed positioned elements at bottom */
-        div[style*="position: fixed"][style*="bottom"] {display: none !important;}
+        /* Disable all click events on images */
+        img {
+            pointer-events: none !important;
+            -webkit-user-drag: none !important;
+        }
         
         /* Your existing styles */
         .sidebar .sidebar-content {
@@ -146,10 +164,24 @@ st.markdown("""
             font-size: 1.1rem;
         }
         
-        /* Hide any remaining Streamlit elements */
-        .reportview-container .main footer {display: none;}
-        .reportview-container .main .block-container {padding-bottom: 0;}
+        /* Remove bottom icons and decorations */
+        .stDeployButton {display: none !important;}
+        .viewerBadge_container__1QSob {display: none !important;}
+        .styles_terminalButton__1QHmt {display: none !important;}
+        div[data-testid="stToolbar"] {display: none !important;}
+        section[data-testid="stBottomBlock"] {display: none !important;}
     </style>
+""", unsafe_allow_html=True)
+
+# Load and display the image using HTML instead of st.image
+img_path = "AI Buddy Green Logo.png"
+st.markdown(f"""
+    <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+        <img src="{img_path}" 
+             alt="AI-Buddy Assistant" 
+             style="width: 400px; height: 150px; object-fit: contain; pointer-events: none; user-select: none; -webkit-user-drag: none;"
+        >
+    </div>
 """, unsafe_allow_html=True)
 
 # Add this to remove default Streamlit menu items

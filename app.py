@@ -58,8 +58,8 @@ PROFESSION_DOMAINS = {
     "Other": []
 }
 
-# Streamlit interface setup
-st.set_page_config(page_title="AI-Buddy Assistant", page_icon="AI-Buddy.png", layout="centered")
+# # Streamlit interface setup
+# st.set_page_config(page_title="AI-Buddy Assistant", page_icon="AI-Buddy.png", layout="centered")
 
 # Load and resize the image
 img = Image.open("AI Buddy Green Logo.png")
@@ -68,7 +68,16 @@ resized_img = img.resize((400, 150))
 # Display the resized image
 st.image(resized_img, caption="AI-Buddy Assistant")
 
-# Enhanced CSS to hide Streamlit elements and style the app
+# Streamlit interface setup
+st.set_page_config(
+    page_title="AI-Buddy Assistant",
+    page_icon="AI-Buddy.png",
+    layout="centered",
+    initial_sidebar_state="auto",
+    menu_items=None
+)
+
+# Enhanced CSS to hide ALL Streamlit elements including bottom icons
 st.markdown("""
     <style>
         /* Hide Streamlit Decoration */
@@ -76,15 +85,30 @@ st.markdown("""
         header {visibility: hidden;}
         footer {visibility: hidden;}
         
-        /* Hide the default Streamlit hamburger menu */
-        .stDeployButton {display: none;}
+        /* Hide bottom app elements */
+        .stApp iframe[height="0"] {display: none;}
+        .stApp div[data-testid="stDecoration"] {display: none;}
+        .stApp div[data-testid="stToolbar"] {display: none;}
+        .stApp .streamlit-footer {display: none;}
+        .stApp div[data-testid="stStatusWidget"] {display: none;}
         
-        /* Hide GitHub icon and other decoration */
-        .css-1rs6os {visibility: hidden;}
-        .css-17ziqus {visibility: hidden;}
-        .css-14xtw13 e8zbici0 {visibility: hidden;}
+        /* Hide all iframe elements that might contain icons */
+        iframe {
+            display: none !important;
+        }
         
-        /* Your existing CSS styles */
+        /* Hide specific bottom elements */
+        div[data-testid="stBottomBlockButtons"] {display: none;}
+        .stHorizontalBlock {display: none;}
+        
+        /* Additional selectors for bottom icons */
+        section[data-testid="stBottomBlock"] {display: none;}
+        .streamlit-bottom {display: none;}
+        
+        /* Force remove any fixed positioned elements at bottom */
+        div[style*="position: fixed"][style*="bottom"] {display: none !important;}
+        
+        /* Your existing styles */
         .sidebar .sidebar-content {
             font-size: 1.1rem;
             color: #333333;
@@ -122,12 +146,18 @@ st.markdown("""
             font-size: 1.1rem;
         }
         
-        /* Additional styles to ensure footer elements are hidden */
-        .viewerBadge_container__1QSob {display: none;}
-        .styles_terminalButton__1QHmt {display: none;}
-        .stDeployButton {display: none;}
-        div[data-testid="stToolbar"] {display: none;}
+        /* Hide any remaining Streamlit elements */
+        .reportview-container .main footer {display: none;}
+        .reportview-container .main .block-container {padding-bottom: 0;}
     </style>
+""", unsafe_allow_html=True)
+
+# Add this to remove default Streamlit menu items
+st.markdown("""
+    <script>
+        var elements = window.parent.document.querySelectorAll('.stApp [data-testid="stToolbar"]')
+        elements[0].remove()
+    </script>
 """, unsafe_allow_html=True)
 # Sidebar title
 st.sidebar.title("Want to know how AI helps in your profession and the role of AI-Buddy?")

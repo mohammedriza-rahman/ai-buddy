@@ -58,16 +58,25 @@ PROFESSION_DOMAINS = {
     "Other": []
 }
 
+# # Streamlit interface setup
+# st.set_page_config(page_title="AI-Buddy Assistant", page_icon="AI-Buddy.png", layout="centered")
 # Streamlit interface setup
-st.set_page_config(page_title="AI-Buddy Assistant", page_icon="AI-Buddy.png", layout="centered")
+st.set_page_config(page_title="AI-Buddy Assistant", page_icon="AI-Buddy.png", layout="centered",menu_items=None)
 
-# # Load and resize the image
-# img = Image.open("AI Buddy Green Logo.png")
-# resized_img = img.resize((400, 150))
+# Load and resize the image
+img = Image.open("AI Buddy Green Logo.png")
+@@ -68,231 +68,231 @@
+# Display the resized image
+st.image(resized_img, caption="AI-Buddy Assistant")
 
-# # Display the resized image
-# st.image(resized_img, caption="AI-Buddy Assistant")
-
+# Streamlit interface setup
+st.set_page_config(
+    page_title="AI-Buddy Assistant",
+    page_icon="AI-Buddy.png",
+    layout="centered",
+    initial_sidebar_state="auto",
+    menu_items=None
+)
 # # Streamlit interface setup
 # st.set_page_config(
 #     page_title="AI-Buddy Assistant",
@@ -77,54 +86,36 @@ st.set_page_config(page_title="AI-Buddy Assistant", page_icon="AI-Buddy.png", la
 #     menu_items=None
 # )
 
-# Enhanced CSS with image fix
+# Enhanced CSS to hide ALL Streamlit elements including bottom icons
 st.markdown("""
     <style>
-        /* Previous hide Streamlit decoration styles */
+        /* Hide Streamlit Decoration */
         #MainMenu {visibility: hidden;}
         header {visibility: hidden;}
         footer {visibility: hidden;}
         
-        /* Prevent image expansion and set fixed size */
-        .stImage > img {
-            pointer-events: none !important;
-            user-select: none !important;
-            -webkit-user-drag: none !important;
-            max-width: 400px !important;
-            max-height: 150px !important;
-            object-fit: contain !important;
-            margin: auto !important;
-            display: block !important;
-        }
+        /* Hide bottom app elements */
+        .stApp iframe[height="0"] {display: none;}
+        .stApp div[data-testid="stDecoration"] {display: none;}
+        .stApp div[data-testid="stToolbar"] {display: none;}
+        .stApp .streamlit-footer {display: none;}
+        .stApp div[data-testid="stStatusWidget"] {display: none;}
         
-        /* Remove image hover effects and click behavior */
-        .stImage {
-            pointer-events: none !important;
-            user-select: none !important;
-        }
-        
-        /* Hide image expansion overlay */
-        .stMarkdown div[data-testid="stImage"] {
-            pointer-events: none !important;
-        }
-        
-        /* Additional Streamlit icon hiding */
-        .streamlit-expanderHeader {
-            display: none !important;
-        }
-        div[data-testid="stToolbar"],
-        div[data-testid="stDecoration"],
-        div[data-testid="stStatusWidget"],
-        .streamlit-footer,
-        section[data-testid="stSidebar"] .decoration {
+        /* Hide all iframe elements that might contain icons */
+        iframe {
             display: none !important;
         }
         
-        /* Disable all click events on images */
-        img {
-            pointer-events: none !important;
-            -webkit-user-drag: none !important;
-        }
+        /* Hide specific bottom elements */
+        div[data-testid="stBottomBlockButtons"] {display: none;}
+        .stHorizontalBlock {display: none;}
+        
+        /* Additional selectors for bottom icons */
+        section[data-testid="stBottomBlock"] {display: none;}
+        .streamlit-bottom {display: none;}
+        
+        /* Force remove any fixed positioned elements at bottom */
+        div[style*="position: fixed"][style*="bottom"] {display: none !important;}
         
         /* Your existing styles */
         .sidebar .sidebar-content {
@@ -164,24 +155,10 @@ st.markdown("""
             font-size: 1.1rem;
         }
         
-        /* Remove bottom icons and decorations */
-        .stDeployButton {display: none !important;}
-        .viewerBadge_container__1QSob {display: none !important;}
-        .styles_terminalButton__1QHmt {display: none !important;}
-        div[data-testid="stToolbar"] {display: none !important;}
-        section[data-testid="stBottomBlock"] {display: none !important;}
+        /* Hide any remaining Streamlit elements */
+        .reportview-container .main footer {display: none;}
+        .reportview-container .main .block-container {padding-bottom: 0;}
     </style>
-""", unsafe_allow_html=True)
-
-# Load and display the image using HTML instead of st.image
-img_path = "AI Buddy Green Logo.png"
-st.markdown(f"""
-    <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-        <img src="{img_path}" 
-             alt="AI-Buddy Assistant" 
-             style="width: 400px; height: 150px; object-fit: contain; pointer-events: none; user-select: none; -webkit-user-drag: none;"
-        >
-    </div>
 """, unsafe_allow_html=True)
 
 # Add this to remove default Streamlit menu items
@@ -226,7 +203,7 @@ if profession and profession != "Select Profession":
             ["Select Domain"] + PROFESSION_DOMAINS[profession],
             key="domain_selector"
         )
-        
+
         if domain == "Other":
             custom_domain = st.sidebar.text_input("Please specify your domain")
             if custom_domain:
@@ -252,13 +229,13 @@ if st.sidebar.button("Submit"):
     else:
         # Format the profession details for the chat
         profession_details = f"My profession is {selected_profession} in the {selected_domain} domain"
-        
+
         # Add input details as a message to chat history
         st.session_state.messages.append({
             "role": "user",
             "content": f"{profession_details}. Here's a bit about me: {description}. Tell me  AI-Buddy can help me."
         })
-        
+
         # Clear the sidebar content
         st.sidebar.empty()
         st.sidebar.write("Details submitted! You can continue chatting below.")
@@ -282,7 +259,7 @@ def get_chat_response():
 
     try:
         response = requests.post(f"{API_BASE_URL}/chat/completions", headers=headers, json=data)
-        
+
         if response.status_code == 200:
             response_json = response.json()
             content = response_json["choices"][0]["message"]["content"]

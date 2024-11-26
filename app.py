@@ -65,9 +65,10 @@ st.set_page_config(page_title="AI-Buddy Assistant", page_icon="AI-Buddy.png", la
 img = Image.open("AI Buddy Green Logo.png")
 resized_img = img.resize((400, 150))
 
-# Display the resized image
-st.image(resized_img, caption="AI-Buddy Assistant", use_container_width=False)
-
+# Prevent image expansion
+with st.container():
+    st.image(resized_img, caption="AI-Buddy Assistant", use_column_width=False, output_format="PNG")
+    
 # # Streamlit interface setup
 # st.set_page_config(
 #     page_title="AI-Buddy Assistant",
@@ -151,6 +152,15 @@ st.markdown("""
         .reportview-container .main .block-container {padding-bottom: 0;}
     </style>
 """, unsafe_allow_html=True)
+
+st.markdown("""
+    <style>
+        img {
+            pointer-events: none; /* Disable click behavior */
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 
 # Add this to remove default Streamlit menu items
 st.markdown("""

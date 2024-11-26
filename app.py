@@ -68,9 +68,23 @@ resized_img = img.resize((400, 150))
 # Display the resized image
 st.image(resized_img, caption="AI-Buddy Assistant")
 
-# Custom CSS
+# Enhanced CSS to hide Streamlit elements and style the app
 st.markdown("""
     <style>
+        /* Hide Streamlit Decoration */
+        #MainMenu {visibility: hidden;}
+        header {visibility: hidden;}
+        footer {visibility: hidden;}
+        
+        /* Hide the default Streamlit hamburger menu */
+        .stDeployButton {display: none;}
+        
+        /* Hide GitHub icon and other decoration */
+        .css-1rs6os {visibility: hidden;}
+        .css-17ziqus {visibility: hidden;}
+        .css-14xtw13 e8zbici0 {visibility: hidden;}
+        
+        /* Your existing CSS styles */
         .sidebar .sidebar-content {
             font-size: 1.1rem;
             color: #333333;
@@ -107,9 +121,14 @@ st.markdown("""
         .st-chat-message p {
             font-size: 1.1rem;
         }
+        
+        /* Additional styles to ensure footer elements are hidden */
+        .viewerBadge_container__1QSob {display: none;}
+        .styles_terminalButton__1QHmt {display: none;}
+        .stDeployButton {display: none;}
+        div[data-testid="stToolbar"] {display: none;}
     </style>
 """, unsafe_allow_html=True)
-
 # Sidebar title
 st.sidebar.title("Want to know how AI helps in your profession and the role of AI-Buddy?")
 st.sidebar.write("Select your details below and discover the potential of AI in your career!")

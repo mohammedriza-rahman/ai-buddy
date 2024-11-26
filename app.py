@@ -59,7 +59,7 @@ PROFESSION_DOMAINS = {
 }
 
 # Streamlit interface setup
-st.set_page_config(page_title="AI-Buddy Assistant", page_icon="AI-Buddy.png", layout="centered",menu_items=None)
+st.set_page_config(page_title="AI-Buddy Assistant", page_icon="AI-Buddy.png", layout="centered")
 
 # Load and resize the image
 img = Image.open("AI Buddy Green Logo.png")
